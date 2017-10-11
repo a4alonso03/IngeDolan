@@ -1,0 +1,81 @@
+﻿@model IEnumerable<IngeDolan.Models.USER>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EMAIL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.USERNAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SURNAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LASTNAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PASSWORDS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STUDENT_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.REMEMBER)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PROJECT.DESCRIPTIONS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ROLE.ROLE_TYPE)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EMAIL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.USERNAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SURNAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LASTNAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PASSWORDS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.STUDENT_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.REMEMBER)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PROJECT.DESCRIPTIONS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ROLE.ROLE_TYPE)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.USERS_ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.USERS_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.USERS_ID })
+        </td>
+    </tr>
+}
+
+</table>
