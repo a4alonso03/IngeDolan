@@ -2,80 +2,136 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    @*Aca viene la parte extra*@
+
+var grid = new WebGrid(canPage: true, rowsPerPage: 10);
+grid.Bind(source: Model, rowCount: ViewBag.TotalRows, autoSortAndPage: false);
 }
 
 <h2>Index</h2>
-
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", null, new { style = "color: #d4e2fc" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.EMAIL)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USERNAME)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SURNAME)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LASTNAME)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PASSWORDS)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.STUDENT_ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.REMEMBER)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PROJECT.DESCRIPTIONS)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ROLE.ROLE_TYPE)
-        </th>
-        <th></th>
-    </tr>
+@*
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EMAIL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USERNAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SURNAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LASTNAME)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PASSWORDS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.STUDENT_ID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.REMEMBER)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PROJECT.DESCRIPTIONS)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ROLE.ROLE_TYPE)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.USERS_ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.USERS_ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.USERS_ID })
-        </td>
-    </tr>
-}
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.USERNAME)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SURNAME)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LASTNAME)
+            </th>
+            <th></th>
+        </tr>
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.USERNAME)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SURNAME)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LASTNAME)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.USERS_ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.USERS_ID }) |
+                    <a href='@Url.Action("Details", new { id=item.USERS_ID })' class="ajax">Details</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <div id="TargetDiv"></div>
+*@
+
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+    <style>
+        table th {
+            color: white;
+        }
+    </style>
+    <div style="background-color:rgba(143, 151, 121, 0.70);color:white;">
+        <div class="container">
+            <h2>Users List</h2>
+
+            <nav class="navbar ">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a href="#" class="navbar-brand">Buscar</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        @using (Html.BeginForm("index", "home", FormMethod.Get, new { @class = "navbar-form navbar-left" }))
+                        {
+                            <div class="form-group">
+                                <input type="text" name="search" value="@ViewBag.search" class="form-control" placeholder="search" />
+                            </div>
+                                <button type="submit" value="Search" class="btn btn-success">Search</button>
+                        }
+                    </div>
+                </div>
+            </nav>
+            
+            <div style="color:white;">
+                @grid.Table(
+                    tableStyle: "table table-responsive table-bordered",
+                    columns: grid.Columns(
+                        grid.Column(columnName: "USERNAME", header: "Nombre"),
+                        grid.Column(columnName: "SURNAME", header: "Primer Apellido"),
+                        grid.Column(columnName: "LASTNAME", header: "Segundo Apellido"),
+                        grid.Column(columnName: "EMAIL", header: "Email"),
+                        grid.Column(header: "Edit", format:@<text>@Html.ActionLink("Edit", "Edit", new { id = item.USERS_ID }) </text>)//,
+                        grid.Column(header: "Details", format:@<text><a href='@Url.Action("Details", new { id = item.USERS_ID })' class="ajax">Details</a></text>)
+                    )
+                )
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        @grid.PagerList(mode: WebGridPagerModes.All, paginationStyle: "pagination pagination-small pagination-right")
+                    </div>
+                </div>
+
+                @Html.Hidden("dir", grid.SortDirection)
+                @Html.Hidden("col", grid.SortColumn)
+
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            try {
+                var dir = $('#dir').val();
+                var col = $('#col').val();
+                var header = $("th a[href*=" + col + "]");
+                if (dir == "Ascending") {
+                    header.text(header.text() + "  ▲")
+                }
+                if (dir == "Descending") {
+                    header.text(header.text() + "  ▼");
+                }
+
+            } catch (e) {
+
+            }
+        })
+    </script>
+</body>
+</html>
