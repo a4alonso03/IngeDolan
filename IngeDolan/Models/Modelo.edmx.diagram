@@ -46,6 +46,7 @@
         <AssociationConnector Association="dolansoftModel.FK__TASK__RESPONSIBL__0A9D95DB" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.ENCAPSULATES" ManuallyRouted="false" />
+        <AssociationConnector Association="dolansoftModel.FK__USERS__sys_user___3E1D39E1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

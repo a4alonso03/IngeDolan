@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using IngeDolan.Models;
+using System.Linq.Dynamic;
 
 namespace IngeDolan.Controllers
 {
@@ -15,11 +16,13 @@ namespace IngeDolan.Controllers
         private dolansoftEntities db = new dolansoftEntities();
 
         // GET: users
+        /*
         public ActionResult Index()
         {
             var uSERS = db.USERS.Include(u => u.PROJECT).Include(u => u.ROLE);
             return View(uSERS.ToList());
         }
+        */
 
         // GET: users/Details/5
         public ActionResult Details(int? id)
@@ -131,6 +134,36 @@ namespace IngeDolan.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public List<USER> GetUsers(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
+        {
+            var v = (from a in db.USERS
+                     where
+                        a.USERNAME.Contains(search) ||
+                        a.SURNAME.Contains(search) ||
+                        a.LASTNAME.Contains(search) ||
+                        a.EMAIL.Contains(search)
+                     select a
+                        );
+            totalRecord = v.Count();
+            v = v.OrderBy(sort + " " + sortdir);
+            if (pageSize > 0)
+            {
+                v = v.Skip(skip).Take(pageSize);
+            }
+            return v.ToList();
+        }
+
+        public ActionResult Index(int page = 1, string sort = "USERNAME", string sortdir = "asc", string search = "")
+        {
+            int pageSize = 10;
+            int totalRecord = 0;
+            if (page < 1) page = 1;
+            int skip = (page * pageSize) - pageSize;
+            var data = GetUsers(search, sort, sortdir, skip, pageSize, out totalRecord);
+            ViewBag.TotalRows = totalRecord;
+            ViewBag.search = search;
+            return View(data);
         }
     }
 }
