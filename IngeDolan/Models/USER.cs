@@ -60,7 +60,6 @@ namespace IngeDolan.Models
         public Nullable<int> PROJECT_ID { get; set; }
 
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "El carné no tiene el formato correcto")]
-        [Required(ErrorMessage = "El carné es un campo requerido.")]
         [StringLength(10)]
         [Display(Name = "Carné:")]
         public Nullable<int> STUDENT_ID { get; set; }
