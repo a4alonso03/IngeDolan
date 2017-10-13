@@ -11,10 +11,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using IngeDolan.Models;
-using SendGrid;
-using System.Configuration;
-using System.Net;
-using System.Diagnostics;
 
 namespace IngeDolan
 {

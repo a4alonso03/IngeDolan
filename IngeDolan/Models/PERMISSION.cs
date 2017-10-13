@@ -22,7 +22,6 @@ namespace IngeDolan.Models
     
         public int PERMISSION_ID { get; set; }
         public string DESCRIPTIONS { get; set; }
-        public string NAMES { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ROLE> ROLES { get; set; }
