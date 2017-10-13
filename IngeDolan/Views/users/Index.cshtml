@@ -95,7 +95,7 @@ grid.Bind(source: Model, rowCount: ViewBag.TotalRows, autoSortAndPage: false);
                         grid.Column(columnName: "SURNAME", header: "Primer Apellido"),
                         grid.Column(columnName: "LASTNAME", header: "Segundo Apellido"),
                         grid.Column(columnName: "EMAIL", header: "Email"),
-                        grid.Column(header: "Edit", format:@<text>@Html.ActionLink("Edit", "Edit", new { id = item.USERS_ID }) </text>),//,
+                        grid.Column(header: "Edit", format:@<text>@Html.ActionLink("Edit", "Edit", new { id = item.USERS_ID }) </text>),
                         grid.Column(header: "Details", format:@<text><a href='@Url.Action("Details", new { id = item.USERS_ID })' class="ajax">Details</a></text>)
                     )
                 )
