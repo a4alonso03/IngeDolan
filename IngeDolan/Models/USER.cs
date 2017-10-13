@@ -29,9 +29,11 @@ namespace IngeDolan.Models
         public string LASTNAME { get; set; }
         public string PASSWORDS { get; set; }
         public Nullable<int> PROJECT_ID { get; set; }
-        public Nullable<int> STUDENT_ID { get; set; }
         public bool REMEMBER { get; set; }
+        public string sys_user_id { get; set; }
+        public string STUDENT_ID { get; set; }
     
+        public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PROJECT> PROJECTs { get; set; }
         public virtual PROJECT PROJECT { get; set; }

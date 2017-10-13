@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dolansoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dolansoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -115,6 +115,7 @@
           </Key>
           <Property Name="PERMISSION_ID" Type="int" Nullable="false" />
           <Property Name="DESCRIPTIONS" Type="varchar" MaxLength="30" />
+          <Property Name="NAMES" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="persona">
           <Key>
@@ -146,6 +147,7 @@
             <PropertyRef Name="ROLE_TYPE" />
           </Key>
           <Property Name="ROLE_TYPE" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="PERMISSION" Type="int" />
         </EntityType>
         <EntityType Name="SCENARIO">
           <Key>
@@ -226,8 +228,9 @@
           <Property Name="LASTNAME" Type="varchar" MaxLength="30" />
           <Property Name="PASSWORDS" Type="varchar" MaxLength="30" />
           <Property Name="PROJECT_ID" Type="int" />
-          <Property Name="STUDENT_ID" Type="int" />
           <Property Name="REMEMBER" Type="bit" Nullable="false" />
+          <Property Name="sys_user_id" Type="nvarchar" MaxLength="128" />
+          <Property Name="STUDENT_ID" Type="varchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK__BACKLOG__PROJECT__7E37BEF6">
           <End Role="PROJECT" Type="Self.PROJECT" Multiplicity="1" />
@@ -477,6 +480,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__USERS__sys_user___3E1D39E1">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="USERS" Type="Self.USERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="USERS">
+              <PropertyRef Name="sys_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -643,6 +658,10 @@
             <End Role="ROLES" EntitySet="ROLES" />
             <End Role="USERS" EntitySet="USERS" />
           </AssociationSet>
+          <AssociationSet Name="FK__USERS__sys_user___3E1D39E1" Association="Self.FK__USERS__sys_user___3E1D39E1">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="USERS" EntitySet="USERS" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -664,8 +683,7 @@
             <End Role="USERS" EntitySet="USERS" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dolansoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -721,6 +739,7 @@
           <NavigationProperty Name="personas" Relationship="Self.FK__persona__id__2EDAF651" FromRole="AspNetUsers" ToRole="persona" />
           <NavigationProperty Name="personas1" Relationship="Self.FK__persona__id__3B40CD36" FromRole="AspNetUsers" ToRole="persona" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="USERS" Relationship="dolansoftModel.FK__USERS__sys_user___3E1D39E1" FromRole="AspNetUser" ToRole="USER" />
         </EntityType>
         <EntityType Name="BACKLOG">
           <Key>
@@ -783,6 +802,7 @@
           <Property Name="PERMISSION_ID" Type="Int32" Nullable="false" />
           <Property Name="DESCRIPTIONS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ROLES" Relationship="Self.ENCAPSULATES" FromRole="PERMISSION" ToRole="ROLES" />
+          <Property Name="NAMES" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="persona">
           <Key>
@@ -813,16 +833,17 @@
           <Property Name="PROJECT_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="LEADER_ID" Type="Int32" />
           <NavigationProperty Name="BACKLOGs" Relationship="Self.FK__BACKLOG__PROJECT__7E37BEF6" FromRole="PROJECT" ToRole="BACKLOG" />
-          <NavigationProperty Name="USER" Relationship="Self.FK__PROJECT__LEADER___7A672E12" FromRole="PROJECT" ToRole="USERS" />
-          <NavigationProperty Name="USERS" Relationship="Self.FL_PID" FromRole="PROJECT" ToRole="USERS" />
-        </EntityType>
+          <NavigationProperty Name="USER" Relationship="dolansoftModel.FK__PROJECT__LEADER___7A672E12" FromRole="PROJECT" ToRole="USER" />
+          <NavigationProperty Name="USERS" Relationship="dolansoftModel.FL_PID" FromRole="PROJECT" ToRole="USER" />
+          </EntityType>
         <EntityType Name="ROLE">
           <Key>
             <PropertyRef Name="ROLE_TYPE" />
           </Key>
           <Property Name="ROLE_TYPE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="USERS" Relationship="Self.FK__USERS__ROLE_TYPE__778AC167" FromRole="ROLES" ToRole="USERS" />
           <NavigationProperty Name="PERMISSIONs" Relationship="Self.ENCAPSULATES" FromRole="ROLES" ToRole="PERMISSION" />
+          <Property Name="PERMISSION" Type="Int32" />
+          <NavigationProperty Name="USERS" Relationship="dolansoftModel.FK__USERS__ROLE_TYPE__778AC167" FromRole="ROLE" ToRole="USER" />
         </EntityType>
         <EntityType Name="SCENARIO">
           <Key>
@@ -871,7 +892,7 @@
           <Property Name="ESTIMATED_TIME" Type="Int32" />
           <NavigationProperty Name="MILESTONEs" Relationship="Self.FK__MILESTONE__0F624AF8" FromRole="TASK" ToRole="MILESTONE" />
           <NavigationProperty Name="USER_STORY" Relationship="Self.FK__TASK__09A971A2" FromRole="TASK" ToRole="USER_STORY" />
-          <NavigationProperty Name="USER" Relationship="Self.FK__TASK__RESPONSIBL__0A9D95DB" FromRole="TASK" ToRole="USERS" />
+          <NavigationProperty Name="USER" Relationship="dolansoftModel.FK__TASK__RESPONSIBL__0A9D95DB" FromRole="TASK" ToRole="USER" />
         </EntityType>
         <EntityType Name="telefono">
           <Key>
@@ -901,25 +922,6 @@
           <NavigationProperty Name="SCENARIOs" Relationship="Self.FK__SCENARIO__06CD04F7" FromRole="USER_STORY" ToRole="SCENARIO" />
           <NavigationProperty Name="SPRINT" Relationship="Self.FK__USER_STORY__03F0984C" FromRole="USER_STORY" ToRole="SPRINT" />
           <NavigationProperty Name="TASKs" Relationship="Self.FK__TASK__09A971A2" FromRole="USER_STORY" ToRole="TASK" />
-        </EntityType>
-        <EntityType Name="USER">
-          <Key>
-            <PropertyRef Name="USERS_ID" />
-          </Key>
-          <Property Name="USERS_ID" Type="Int32" Nullable="false" />
-          <Property Name="ROLE_TYPE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="USERNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="SURNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="LASTNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="PASSWORDS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="PROJECT_ID" Type="Int32" />
-          <Property Name="STUDENT_ID" Type="Int32" />
-          <Property Name="REMEMBER" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="PROJECTs" Relationship="Self.FK__PROJECT__LEADER___7A672E12" FromRole="USERS" ToRole="PROJECT" />
-          <NavigationProperty Name="PROJECT" Relationship="Self.FL_PID" FromRole="USERS" ToRole="PROJECT" />
-          <NavigationProperty Name="ROLE" Relationship="Self.FK__USERS__ROLE_TYPE__778AC167" FromRole="USERS" ToRole="ROLES" />
-          <NavigationProperty Name="TASKs" Relationship="Self.FK__TASK__RESPONSIBL__0A9D95DB" FromRole="USERS" ToRole="TASK" />
         </EntityType>
         <Association Name="FK__permisos___id_ro__2DE6D218">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="1" />
@@ -1089,42 +1091,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PROJECT__LEADER___7A672E12">
-          <End Role="USERS" Type="Self.USER" Multiplicity="0..1" />
-          <End Role="PROJECT" Type="Self.PROJECT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="USERS">
-              <PropertyRef Name="USERS_ID" />
-            </Principal>
-            <Dependent Role="PROJECT">
-              <PropertyRef Name="LEADER_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FL_PID">
-          <End Role="PROJECT" Type="Self.PROJECT" Multiplicity="0..1" />
-          <End Role="USERS" Type="Self.USER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PROJECT">
-              <PropertyRef Name="PROJECT_ID" />
-            </Principal>
-            <Dependent Role="USERS">
-              <PropertyRef Name="PROJECT_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__USERS__ROLE_TYPE__778AC167">
-          <End Role="ROLES" Type="Self.ROLE" Multiplicity="0..1" />
-          <End Role="USERS" Type="Self.USER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ROLES">
-              <PropertyRef Name="ROLE_TYPE" />
-            </Principal>
-            <Dependent Role="USERS">
-              <PropertyRef Name="ROLE_TYPE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__SCENARIO__06CD04F7">
           <End Role="USER_STORY" Type="Self.USER_STORY" Multiplicity="1" />
           <End Role="SCENARIO" Type="Self.SCENARIO" Multiplicity="*" />
@@ -1173,18 +1139,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TASK__RESPONSIBL__0A9D95DB">
-          <End Role="USERS" Type="Self.USER" Multiplicity="0..1" />
-          <End Role="TASK" Type="Self.TASK" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="USERS">
-              <PropertyRef Name="USERS_ID" />
-            </Principal>
-            <Dependent Role="TASK">
-              <PropertyRef Name="RESPONSIBLE_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -1212,7 +1166,6 @@
           <EntitySet Name="TASKs" EntityType="Self.TASK" />
           <EntitySet Name="telefonoes" EntityType="Self.telefono" />
           <EntitySet Name="USER_STORY" EntityType="Self.USER_STORY" />
-          <EntitySet Name="USERS" EntityType="Self.USER" />
           <AssociationSet Name="FK__permisos___id_ro__2DE6D218" Association="Self.FK__permisos___id_ro__2DE6D218">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="permisos_asociados_roles" EntitySet="permisos_asociados_roles" />
@@ -1265,18 +1218,6 @@
             <End Role="persona" EntitySet="personas" />
             <End Role="telefono" EntitySet="telefonoes" />
           </AssociationSet>
-          <AssociationSet Name="FK__PROJECT__LEADER___7A672E12" Association="Self.FK__PROJECT__LEADER___7A672E12">
-            <End Role="USERS" EntitySet="USERS" />
-            <End Role="PROJECT" EntitySet="PROJECTs" />
-          </AssociationSet>
-          <AssociationSet Name="FL_PID" Association="Self.FL_PID">
-            <End Role="PROJECT" EntitySet="PROJECTs" />
-            <End Role="USERS" EntitySet="USERS" />
-          </AssociationSet>
-          <AssociationSet Name="FK__USERS__ROLE_TYPE__778AC167" Association="Self.FK__USERS__ROLE_TYPE__778AC167">
-            <End Role="ROLES" EntitySet="ROLES" />
-            <End Role="USERS" EntitySet="USERS" />
-          </AssociationSet>
           <AssociationSet Name="FK__SCENARIO__06CD04F7" Association="Self.FK__SCENARIO__06CD04F7">
             <End Role="USER_STORY" EntitySet="USER_STORY" />
             <End Role="SCENARIO" EntitySet="SCENARIOs" />
@@ -1289,10 +1230,6 @@
             <End Role="USER_STORY" EntitySet="USER_STORY" />
             <End Role="TASK" EntitySet="TASKs" />
           </AssociationSet>
-          <AssociationSet Name="FK__TASK__RESPONSIBL__0A9D95DB" Association="Self.FK__TASK__RESPONSIBL__0A9D95DB">
-            <End Role="USERS" EntitySet="USERS" />
-            <End Role="TASK" EntitySet="TASKs" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1301,7 +1238,109 @@
             <End Role="PERMISSION" EntitySet="PERMISSIONs" />
             <End Role="ROLES" EntitySet="ROLES" />
           </AssociationSet>
+          <EntitySet Name="USERS" EntityType="dolansoftModel.USER" />
+          <AssociationSet Name="FK__USERS__sys_user___3E1D39E1" Association="dolansoftModel.FK__USERS__sys_user___3E1D39E1">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="USER" EntitySet="USERS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PROJECT__LEADER___7A672E12" Association="dolansoftModel.FK__PROJECT__LEADER___7A672E12">
+            <End Role="USER" EntitySet="USERS" />
+            <End Role="PROJECT" EntitySet="PROJECTs" />
+          </AssociationSet>
+          <AssociationSet Name="FL_PID" Association="dolansoftModel.FL_PID">
+            <End Role="PROJECT" EntitySet="PROJECTs" />
+            <End Role="USER" EntitySet="USERS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USERS__ROLE_TYPE__778AC167" Association="dolansoftModel.FK__USERS__ROLE_TYPE__778AC167">
+            <End Role="ROLE" EntitySet="ROLES" />
+            <End Role="USER" EntitySet="USERS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TASK__RESPONSIBL__0A9D95DB" Association="dolansoftModel.FK__TASK__RESPONSIBL__0A9D95DB">
+            <End Role="USER" EntitySet="USERS" />
+            <End Role="TASK" EntitySet="TASKs" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="USER">
+          <Key>
+            <PropertyRef Name="USERS_ID" />
+          </Key>
+          <Property Name="USERS_ID" Type="Int32" Nullable="false" />
+          <Property Name="ROLE_TYPE" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="USERNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SURNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LASTNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PASSWORDS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PROJECT_ID" Type="Int32" />
+          <Property Name="REMEMBER" Type="Boolean" Nullable="false" />
+          <Property Name="sys_user_id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="STUDENT_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="dolansoftModel.FK__USERS__sys_user___3E1D39E1" FromRole="USER" ToRole="AspNetUser" />
+          <NavigationProperty Name="PROJECTs" Relationship="dolansoftModel.FK__PROJECT__LEADER___7A672E12" FromRole="USER" ToRole="PROJECT" />
+          <NavigationProperty Name="PROJECT" Relationship="dolansoftModel.FL_PID" FromRole="USER" ToRole="PROJECT" />
+          <NavigationProperty Name="ROLE" Relationship="dolansoftModel.FK__USERS__ROLE_TYPE__778AC167" FromRole="USER" ToRole="ROLE" />
+          <NavigationProperty Name="TASKs" Relationship="dolansoftModel.FK__TASK__RESPONSIBL__0A9D95DB" FromRole="USER" ToRole="TASK" />
+        </EntityType>
+        <Association Name="FK__USERS__sys_user___3E1D39E1">
+          <End Type="dolansoftModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="dolansoftModel.USER" Role="USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="USER">
+              <PropertyRef Name="sys_user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PROJECT__LEADER___7A672E12">
+          <End Type="dolansoftModel.USER" Role="USER" Multiplicity="0..1" />
+          <End Type="dolansoftModel.PROJECT" Role="PROJECT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="USERS_ID" />
+            </Principal>
+            <Dependent Role="PROJECT">
+              <PropertyRef Name="LEADER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FL_PID">
+          <End Type="dolansoftModel.PROJECT" Role="PROJECT" Multiplicity="0..1" />
+          <End Type="dolansoftModel.USER" Role="USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROJECT">
+              <PropertyRef Name="PROJECT_ID" />
+            </Principal>
+            <Dependent Role="USER">
+              <PropertyRef Name="PROJECT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USERS__ROLE_TYPE__778AC167">
+          <End Type="dolansoftModel.ROLE" Role="ROLE" Multiplicity="0..1" />
+          <End Type="dolansoftModel.USER" Role="USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLE">
+              <PropertyRef Name="ROLE_TYPE" />
+            </Principal>
+            <Dependent Role="USER">
+              <PropertyRef Name="ROLE_TYPE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TASK__RESPONSIBL__0A9D95DB">
+          <End Type="dolansoftModel.USER" Role="USER" Multiplicity="0..1" />
+          <End Type="dolansoftModel.TASK" Role="TASK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="USERS_ID" />
+            </Principal>
+            <Dependent Role="TASK">
+              <PropertyRef Name="RESPONSIBLE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1400,6 +1439,7 @@
           <EntitySetMapping Name="PERMISSIONs">
             <EntityTypeMapping TypeName="dolansoftModel.PERMISSION">
               <MappingFragment StoreEntitySet="PERMISSION">
+                <ScalarProperty Name="NAMES" ColumnName="NAMES" />
                 <ScalarProperty Name="PERMISSION_ID" ColumnName="PERMISSION_ID" />
                 <ScalarProperty Name="DESCRIPTIONS" ColumnName="DESCRIPTIONS" />
               </MappingFragment>
@@ -1435,6 +1475,7 @@
           <EntitySetMapping Name="ROLES">
             <EntityTypeMapping TypeName="dolansoftModel.ROLE">
               <MappingFragment StoreEntitySet="ROLES">
+                <ScalarProperty Name="PERMISSION" ColumnName="PERMISSION" />
                 <ScalarProperty Name="ROLE_TYPE" ColumnName="ROLE_TYPE" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1500,22 +1541,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="USERS">
-            <EntityTypeMapping TypeName="dolansoftModel.USER">
-              <MappingFragment StoreEntitySet="USERS">
-                <ScalarProperty Name="USERS_ID" ColumnName="USERS_ID" />
-                <ScalarProperty Name="ROLE_TYPE" ColumnName="ROLE_TYPE" />
-                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
-                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
-                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
-                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
-                <ScalarProperty Name="PASSWORDS" ColumnName="PASSWORDS" />
-                <ScalarProperty Name="PROJECT_ID" ColumnName="PROJECT_ID" />
-                <ScalarProperty Name="STUDENT_ID" ColumnName="STUDENT_ID" />
-                <ScalarProperty Name="REMEMBER" ColumnName="REMEMBER" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="dolansoftModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetRoles">
               <ScalarProperty Name="Id" ColumnName="RoleId" />
@@ -1532,6 +1557,23 @@
               <ScalarProperty Name="ROLE_TYPE" ColumnName="ROLE_TYPE" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="USERS">
+            <EntityTypeMapping TypeName="dolansoftModel.USER">
+              <MappingFragment StoreEntitySet="USERS">
+                <ScalarProperty Name="STUDENT_ID" ColumnName="STUDENT_ID" />
+                <ScalarProperty Name="sys_user_id" ColumnName="sys_user_id" />
+                <ScalarProperty Name="REMEMBER" ColumnName="REMEMBER" />
+                <ScalarProperty Name="PROJECT_ID" ColumnName="PROJECT_ID" />
+                <ScalarProperty Name="PASSWORDS" ColumnName="PASSWORDS" />
+                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
+                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="ROLE_TYPE" ColumnName="ROLE_TYPE" />
+                <ScalarProperty Name="USERS_ID" ColumnName="USERS_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
