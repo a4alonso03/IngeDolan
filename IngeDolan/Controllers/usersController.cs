@@ -8,12 +8,15 @@ using System.Web;
 using System.Web.Mvc;
 using IngeDolan.Models;
 using System.Linq.Dynamic;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 
 namespace IngeDolan.Controllers
 {
     public class usersController : Controller
     {
         private dolansoftEntities db = new dolansoftEntities();
+        private ApplicationUserManager _userManager;
 
         // GET: users
         /*
@@ -56,14 +59,31 @@ namespace IngeDolan.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.USERS.Add(uSER);
-                db.SaveChanges();
+                
+                var user = new ApplicationUser { UserName = uSER.EMAIL, Email = uSER.EMAIL };
+                //var result = await UserManager.CreateAsync(user, uSER.PASSWORDS);
+                //if (result.Succeeded) {
+                    db.USERS.Add(uSER);
+                    db.SaveChanges();
+                //}
                 return RedirectToAction("Index");
             }
 
             ViewBag.PROJECT_ID = new SelectList(db.PROJECTs, "PROJECT_ID", "DESCRIPTIONS", uSER.PROJECT_ID);
             ViewBag.ROLE_TYPE = new SelectList(db.ROLES, "ROLE_TYPE", "ROLE_TYPE", uSER.ROLE_TYPE);
             return View(uSER);
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
 
         // GET: users/Edit/5
