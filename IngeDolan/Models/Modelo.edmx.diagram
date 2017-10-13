@@ -23,7 +23,6 @@
         <EntityTypeShape EntityType="dolansoftModel.TASK" Width="1.5" PointX="26.5" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="dolansoftModel.telefono" Width="1.5" PointX="7.5" PointY="9" IsExpanded="true" />
         <EntityTypeShape EntityType="dolansoftModel.USER_STORY" Width="1.5" PointX="21.25" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="dolansoftModel.USER" Width="1.5" PointX="12.25" PointY="2.5" IsExpanded="true" />
         <AssociationConnector Association="dolansoftModel.FK__permisos___id_ro__2DE6D218" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.FK__permisos___id_ro__3A4CA8FD" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
@@ -37,16 +36,17 @@
         <AssociationConnector Association="dolansoftModel.FK__permisos___id_pe__395884C4" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.FK__telefono__cedula__2FCF1A8A" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.FK__telefono__cedula__3C34F16F" ManuallyRouted="false" />
-        <AssociationConnector Association="dolansoftModel.FK__PROJECT__LEADER___7A672E12" ManuallyRouted="false" />
-        <AssociationConnector Association="dolansoftModel.FL_PID" ManuallyRouted="false" />
-        <AssociationConnector Association="dolansoftModel.FK__USERS__ROLE_TYPE__778AC167" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.FK__SCENARIO__06CD04F7" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.FK__USER_STORY__03F0984C" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.FK__TASK__09A971A2" ManuallyRouted="false" />
-        <AssociationConnector Association="dolansoftModel.FK__TASK__RESPONSIBL__0A9D95DB" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="dolansoftModel.ENCAPSULATES" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="dolansoftModel.USER" Width="1.5" PointX="12.25" PointY="2.75" />
         <AssociationConnector Association="dolansoftModel.FK__USERS__sys_user___3E1D39E1" />
+        <AssociationConnector Association="dolansoftModel.FK__PROJECT__LEADER___7A672E12" />
+        <AssociationConnector Association="dolansoftModel.FL_PID" />
+        <AssociationConnector Association="dolansoftModel.FK__USERS__ROLE_TYPE__778AC167" />
+        <AssociationConnector Association="dolansoftModel.FK__TASK__RESPONSIBL__0A9D95DB" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
