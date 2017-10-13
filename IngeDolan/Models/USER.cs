@@ -11,8 +11,7 @@ namespace IngeDolan.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class USER
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,47 +20,15 @@ namespace IngeDolan.Models
             this.PROJECTs = new HashSet<PROJECT>();
             this.TASKs = new HashSet<TASK>();
         }
-
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "La cédula solo puede estar compuesta por números")]
-        [Required(ErrorMessage = "La cédula es un campo requerido.")]
-        [StringLength(11)]
-        [Display(Name = "Cédula:")]
+    
         public int USERS_ID { get; set; }
-
-        [Display(Name = "Rol:")]
         public string ROLE_TYPE { get; set; }
-
-        [Display(Name = "Email:")]
-        [DataType(DataType.EmailAddress)]
-        [EmailAddress]
         public string EMAIL { get; set; }
-
-        [StringLength(20)]
-        [Required(ErrorMessage = "El nombre es un campo requerido.")]
-        [Display(Name = "Nombre:")]
-        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El nombre solo puede estar compuesto por letras")]
         public string USERNAME { get; set; }
-
-        [StringLength(20)]
-        [Required(ErrorMessage = "El primer apellido es un campo requerido.")]
-        [Display(Name = "Primer apellido:")]
-        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El primer apellido solo puede estar compuesto por letras")]
         public string SURNAME { get; set; }
-
-        [StringLength(20)]
-        [Display(Name = "Segundo apellido:")]
-        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El segundo apellido solo puede estar compuesto por letras")]
         public string LASTNAME { get; set; }
-
-        [Display(Name = "Contraseña:")]
         public string PASSWORDS { get; set; }
-
-        [Display(Name = "Proyecto:")]
         public Nullable<int> PROJECT_ID { get; set; }
-
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "El carné no tiene el formato correcto")]
-        [StringLength(10)]
-        [Display(Name = "Carné:")]
         public Nullable<int> STUDENT_ID { get; set; }
         public bool REMEMBER { get; set; }
         public string sys_user_id { get; set; }
