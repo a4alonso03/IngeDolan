@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using IngeDolan.Models;
 using System.Linq.Dynamic;
 using Microsoft.AspNet.Identity.Owin;
-using System.Threading.Tasks;
+using IngeDolan.Models;
 
 namespace IngeDolan.Controllers
 {

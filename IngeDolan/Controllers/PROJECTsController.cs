@@ -1,15 +1,9 @@
 ﻿using IngeDolan.App_Start;
 using IngeDolan.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using PagedList;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Data.Entity;
