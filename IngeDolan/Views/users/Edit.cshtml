@@ -18,7 +18,7 @@
         @Html.HiddenFor(model => model.USERS_ID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ROLE_TYPE,  htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Rol")
             <div class="col-md-10">
                 @Html.DropDownList("ROLE_TYPE", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ROLE_TYPE, "", new { @class = "text-danger" })
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EMAIL, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Correo electronico")
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EMAIL, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.USERNAME, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Nombre de Usuario")
             <div class="col-md-10">
                 @Html.EditorFor(model => model.USERNAME, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.USERNAME, "", new { @class = "text-danger" })
@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.SURNAME, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Apellido 1")
             <div class="col-md-10">
                 @Html.EditorFor(model => model.SURNAME, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SURNAME, "", new { @class = "text-danger" })
@@ -50,7 +50,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LASTNAME, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Apellido 2")
             <div class="col-md-10">
                 @Html.EditorFor(model => model.LASTNAME, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LASTNAME, "", new { @class = "text-danger" })
@@ -58,7 +58,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PASSWORDS, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Contraseña")
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PASSWORDS, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PASSWORDS, "", new { @class = "text-danger" })
@@ -66,7 +66,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PROJECT_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("ID de Proyecto")
             <div class="col-md-10">
                 @Html.DropDownList("PROJECT_ID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PROJECT_ID, "", new { @class = "text-danger" })
@@ -74,7 +74,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.STUDENT_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("ID de estudiante")
             <div class="col-md-10">
                 @Html.EditorFor(model => model.STUDENT_ID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.STUDENT_ID, "", new { @class = "text-danger" })
@@ -82,7 +82,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.REMEMBER, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Recordar?")
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.REMEMBER)
@@ -93,14 +93,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Guardar" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver", "Index")
 </div>
 
 @section Scripts {
