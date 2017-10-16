@@ -17,7 +17,7 @@ namespace IngeDolan.Controllers
         ApplicationDbContext context = new ApplicationDbContext();
 
         // GET: PROJECTs
-        [Authorize(Roles = "Proyecto")]
+        [Authorize(Roles = "Profesor")]
         public ActionResult Index()
         {
             var pROJECTs = db.PROJECTs.Include(p => p.USERS);
