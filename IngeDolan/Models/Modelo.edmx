@@ -224,7 +224,7 @@
           <Property Name="USERNAME" Type="varchar" MaxLength="30" />
           <Property Name="SURNAME" Type="varchar" MaxLength="30" />
           <Property Name="LASTNAME" Type="varchar" MaxLength="30" />
-          <Property Name="PASSWORDS" Type="varchar" MaxLength="30" />
+          <Property Name="PASSWORDS" Type="varchar" MaxLength="100" />
           <Property Name="PROJECT_ID" Type="varchar" MaxLength="40" />
         </EntityType>
         <Association Name="FK__BACKLOG__PROJECT__5F7E2DAC">
@@ -761,7 +761,7 @@
           <Property Name="USERNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="SURNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="LASTNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="PASSWORDS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PASSWORDS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="PROJECT_ID" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="PROJECTs" Relationship="dolansoftModel.FK__PROJECT__LEADER___5BAD9CC8" FromRole="USER" ToRole="PROJECT" />
           <NavigationProperty Name="PROJECT" Relationship="dolansoftModel.FL_PID" FromRole="USER" ToRole="PROJECT" />
