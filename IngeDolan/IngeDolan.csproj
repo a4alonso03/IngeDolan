@@ -232,7 +232,6 @@
     <Compile Include="App_Start\ToastrController.cs" />
     <Compile Include="App_Start\ToastType.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AspNetRolesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OtherController.cs" />
@@ -488,11 +487,6 @@
     <Content Include="Views\PROJECTs\Edit.cshtml" />
     <Content Include="Views\PROJECTs\Index.cshtml" />
     <Content Include="Views\Other\Denied.cshtml" />
-    <Content Include="Views\AspNetRoles\Create.cshtml" />
-    <Content Include="Views\AspNetRoles\Delete.cshtml" />
-    <Content Include="Views\AspNetRoles\Details.cshtml" />
-    <Content Include="Views\AspNetRoles\Edit.cshtml" />
-    <Content Include="Views\AspNetRoles\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
