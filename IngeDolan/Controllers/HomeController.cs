@@ -13,9 +13,8 @@ namespace IngeDolan.Controllers
     {
         public ActionResult Index()
         {
-            /*
-            var auth = User.Identity.IsAuthenticated;
-            if (auth == true)
+            /* Crear usuario:
+            if (User.Identity.IsAuthenticated)
             {
                 var name = User.Identity.Name;
                 var id = User.Identity.GetUserId();
@@ -31,6 +30,39 @@ namespace IngeDolan.Controllers
                     uzer.Email = "admin@defauil.com";
 
                     var result = userManager.Create(uzer, "admin");
+                }
+            }
+            */
+            /* Roles
+            if(User.Identity.IsAuthenticated)
+            {
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    var idUzer = User.Identity.GetUserId(); //Usuario actual
+
+                    var roleManager = new RoleManager<IdentityRole>
+                    (new RoleStore<IdentityRole>(db));
+
+                    //Crear Rol
+                    var result = roleManager.Create(new IdentityRole("Reviza_Proyectos"));
+                    var userManager = new UserManager<ApplicationUser>( new UserStore<ApplicationUser>(db) );
+
+                    //Agregar Usuario a rol
+                    result = userManager.AddToRole(idUzer, "Reviza_Proyectos");
+
+                    // Usuario en rol?
+                    var uzerInRole1 = userManager.IsInRole(idUzer, "Reviza_Proyectos");
+                    var uzerInRole2 = userManager.IsInRole(idUzer, "TDC.Reportes.Distribuciones");
+
+                    // Roles de usuario
+                    var roles = userManager.GetRoles(idUzer);
+
+                    // Remover usuario del rol
+                    result userManager.RemoveFromRole(idUzer, "Reviza_Proyectos");
+                    
+                    // Borrar rol
+                    var rol = roleManager.FindByName("ApruebaPrestamos");
+                    roleManager.Delete(rolVendedor);
                 }
             }
             */
