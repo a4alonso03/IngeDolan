@@ -241,7 +241,7 @@ namespace IngeDolan.Controllers
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);
-            return View(model);
+            return RedirectToAction("Index", "Home");
         }
 
         //

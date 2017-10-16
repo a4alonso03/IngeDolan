@@ -10,6 +10,11 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using IngeDolan.Models;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Net;
+using System.Linq.Dynamic;
 
 namespace IngeDolan.Controllers
 {
@@ -22,6 +27,30 @@ namespace IngeDolan.Controllers
 
         public AccountController()
         {
+        }
+
+        // GET: users
+        [AllowAnonymous]
+        public ActionResult Index()
+        {
+            var uSERS = db.AspNetUsers.Include(u => u.AspNetRoles);
+            return View(uSERS.ToList());
+        }
+
+        // GET: users/Details/5
+        [AllowAnonymous]
+        public ActionResult Details(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AspNetUser uSER = db.AspNetUsers.Where(X => X.Id.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
+            if (uSER == null)
+            {
+                return HttpNotFound();
+            }
+            return View(uSER);
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -77,7 +106,7 @@ namespace IngeDolan.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.Recuerdame, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -85,7 +114,7 @@ namespace IngeDolan.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.Recuerdame });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -459,14 +488,14 @@ namespace IngeDolan.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-
+        
         internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
                 : this(provider, redirectUri, null)
             {
             }
-
+            
             public ChallengeResult(string provider, string redirectUri, string userId)
             {
                 LoginProvider = provider;
