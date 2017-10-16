@@ -3,6 +3,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IngeDolan.Models
 {
+    public class UserDetailsModel
+    {
+        public string Id { get; set; }
+
+        public string Email { get; set; }
+        
+        public string UserName { get; set; }
+
+        public string Role { get; set; }
+    }
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -65,12 +76,17 @@ namespace IngeDolan.Models
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(30, ErrorMessage = "El rango requerido de caracteres es de 1 a 30", MinimumLength = 1)]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }

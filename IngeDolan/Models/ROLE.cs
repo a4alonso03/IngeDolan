@@ -22,26 +22,24 @@ public partial class ROLE
     public ROLE()
     {
 
-        this.PERMISSIONs = new HashSet<PERMISSION>();
-
         this.USERS = new HashSet<USER>();
+
+        this.PERMISSIONs = new HashSet<PERMISSION>();
 
     }
 
 
     public string ROLE_TYPE { get; set; }
 
-    public Nullable<int> PERMISSION { get; set; }
 
-
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<PERMISSION> PERMISSIONs { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<USER> USERS { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<PERMISSION> PERMISSIONs { get; set; }
 
 }
 

@@ -22,12 +22,6 @@ public partial class telefono
 
     public string telefono1 { get; set; }
 
-
-
-    public virtual persona persona { get; set; }
-
-    public virtual persona persona1 { get; set; }
-
 }
 
 }

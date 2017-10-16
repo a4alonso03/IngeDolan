@@ -18,25 +18,6 @@ using System;
 public partial class AspNetUser
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public AspNetUser()
-    {
-
-        this.AspNetUserClaims = new HashSet<AspNetUserClaim>();
-
-        this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
-
-        this.personas = new HashSet<persona>();
-
-        this.personas1 = new HashSet<persona>();
-
-        this.AspNetRoles = new HashSet<AspNetRole>();
-
-        this.USERS = new HashSet<USER>();
-
-    }
-
-
     public string Id { get; set; }
 
     public string Email { get; set; }
@@ -60,32 +41,6 @@ public partial class AspNetUser
     public int AccessFailedCount { get; set; }
 
     public string UserName { get; set; }
-
-
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<persona> personas { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<persona> personas1 { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<USER> USERS { get; set; }
 
 }
 

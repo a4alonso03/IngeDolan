@@ -18,15 +18,15 @@ using System;
 public partial class MILESTONE
 {
 
-    public int MILESTONE_ID { get; set; }
+    public string MILESTONE_ID { get; set; }
 
-    public int TASK_ID { get; set; }
+    public string TASK_ID { get; set; }
 
-    public int STORY_ID { get; set; }
+    public string STORY_ID { get; set; }
 
-    public int BACKLOG_ID { get; set; }
+    public string BACKLOG_ID { get; set; }
 
-    public int PROJECT_ID { get; set; }
+    public string PROJECT_ID { get; set; }
 
     public Nullable<int> PROGRESS { get; set; }
 

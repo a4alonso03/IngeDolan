@@ -33,8 +33,7 @@ namespace IngeDolan.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var uSERS = db.AspNetUsers.Include(u => u.AspNetRoles);
-            return View(uSERS.ToList());
+            return View(db.AspNetUsers.ToList());
         }
 
         // GET: users/Details/5
@@ -46,11 +45,15 @@ namespace IngeDolan.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             AspNetUser uSER = db.AspNetUsers.Where(X => X.Id.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
-            if (uSER == null)
+            AspNetUserRole rOLE = db.AspNetUserRoles.Where(X => X.UserId.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
+            AspNetRole rULO = db.AspNetRoles.Where(X => X.Id.Equals(rOLE.RoleId, StringComparison.Ordinal)).FirstOrDefault();
+            USER uner = db.USERS.Where(X => X.USERS_ID.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
+            var usero = new UserDetailsModel { Id = uSER.Id, Email = uSER.Email, Role = rULO.Name, UserName = uner.USERNAME };
+            if (uSER == null || rOLE == null || rULO == null || usero == null )
             {
                 return HttpNotFound();
             }
-            return View(uSER);
+            return PartialView(usero);
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -183,7 +186,7 @@ namespace IngeDolan.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Name, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -192,6 +195,9 @@ namespace IngeDolan.Controllers
                         var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
                         userManager.AddToRole(user.Id, model.ROLE);
                     }
+                    var usuario = new USER { USERNAME = model.Name, EMAIL = model.Email, PASSWORDS = model.Password, USERS_ID = user.Id, ROLE_TYPE = model.ROLE };
+                    db.USERS.Add(usuario);
+                    db.SaveChanges();
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

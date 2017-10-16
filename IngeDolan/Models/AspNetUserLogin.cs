@@ -24,10 +24,6 @@ public partial class AspNetUserLogin
 
     public string UserId { get; set; }
 
-
-
-    public virtual AspNetUser AspNetUser { get; set; }
-
 }
 
 }
