@@ -29,7 +29,7 @@ public partial class PROJECT
     }
 
 
-    public int PROJECT_ID { get; set; }
+    public string PROJECT_ID { get; set; }
 
     public Nullable<System.DateTime> STARTING_DATE { get; set; }
 
@@ -39,7 +39,7 @@ public partial class PROJECT
 
     public string PROJECT_NAME { get; set; }
 
-    public Nullable<int> LEADER_ID { get; set; }
+    public string LEADER_ID { get; set; }
 
 
 

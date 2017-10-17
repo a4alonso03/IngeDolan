@@ -22,16 +22,6 @@ public partial class permisos_asociados_roles
 
     public string id_rol { get; set; }
 
-
-
-    public virtual AspNetRole AspNetRole { get; set; }
-
-    public virtual AspNetRole AspNetRole1 { get; set; }
-
-    public virtual permiso permiso { get; set; }
-
-    public virtual permiso permiso1 { get; set; }
-
 }
 
 }

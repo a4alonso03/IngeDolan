@@ -20,11 +20,11 @@ public partial class SCENARIO
 
     public int NUMBER { get; set; }
 
-    public int STORY_ID { get; set; }
+    public string STORY_ID { get; set; }
 
-    public int BACKLOG_ID { get; set; }
+    public string BACKLOG_ID { get; set; }
 
-    public int PROJECT_ID { get; set; }
+    public string PROJECT_ID { get; set; }
 
     public string ACCEPTANCE_CRITERIA { get; set; }
 

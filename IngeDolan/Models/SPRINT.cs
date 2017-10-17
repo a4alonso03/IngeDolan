@@ -27,11 +27,11 @@ public partial class SPRINT
     }
 
 
-    public int SPRINT_ID { get; set; }
+    public string SPRINT_ID { get; set; }
 
-    public int BACKLOG_ID { get; set; }
+    public string BACKLOG_ID { get; set; }
 
-    public int PROJECT_ID { get; set; }
+    public string PROJECT_ID { get; set; }
 
     public Nullable<System.DateTime> STARTING_DATE { get; set; }
 

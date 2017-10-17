@@ -27,11 +27,9 @@ public partial class PERMISSION
     }
 
 
-    public int PERMISSION_ID { get; set; }
+    public string PERMISSION_ID { get; set; }
 
     public string DESCRIPTIONS { get; set; }
-
-    public string NAMES { get; set; }
 
 
 
