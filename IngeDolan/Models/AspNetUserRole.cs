@@ -15,12 +15,12 @@ namespace IngeDolan.Models
 using System;
     using System.Collections.Generic;
     
-public partial class permiso
+public partial class AspNetUserRole
 {
 
-    public int id_permiso { get; set; }
+    public string UserId { get; set; }
 
-    public string permiso1 { get; set; }
+    public string RoleId { get; set; }
 
 }
 

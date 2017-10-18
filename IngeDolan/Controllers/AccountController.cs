@@ -6,20 +6,87 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using IngeDolan.Models;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Net;
+using System.Linq.Dynamic;
 
 namespace IngeDolan.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private dolansoftEntities db = new dolansoftEntities();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         public AccountController()
         {
+        }
+
+        // GET: users
+        [AllowAnonymous]
+        public ActionResult Index()
+        {
+            return View(db.AspNetUsers.ToList());
+        }
+
+        // GET: users/Details/5
+        [AllowAnonymous]
+        public ActionResult Details(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AspNetUser uSER = db.AspNetUsers.Where(X => X.Id.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
+            AspNetUserRole rOLE = db.AspNetUserRoles.Where(X => X.UserId.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
+            AspNetRole rULO = db.AspNetRoles.Where(X => X.Id.Equals(rOLE.RoleId, StringComparison.Ordinal)).FirstOrDefault();
+            USER uner = db.USERS.Where(X => X.USERS_ID.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
+            var usero = new UserDetailsModel { Id = uSER.Id, Email = uSER.Email, Role = rULO.Name, UserName = uner.USERNAME };
+            if (uSER == null || rOLE == null || rULO == null || usero == null )
+            {
+                return HttpNotFound();
+            }
+            return PartialView(usero);
+        }
+
+        // GET: PROJECTs/Delete/5
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AspNetUser uSER = db.AspNetUsers.Find(id);
+            if (uSER == null)
+            {
+                return HttpNotFound();
+            }
+            return View(uSER);
+        }
+
+        // POST: PROJECTs/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            //DELETE FROM AspNetUserRoles where UserId = 'id';
+            //DELETE FROM AspNetUsers where Id = 'id';
+            //ELETE FROM USERS where USERS_ID = 'id';
+            AspNetUser uSER = db.AspNetUsers.Find(id);
+            AspNetUserRole rOLE = db.AspNetUserRoles.Where(X => X.UserId.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
+            USER uNER = db.USERS.Where(X => X.USERNAME.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
+            db.AspNetUsers.Remove(uSER);
+            db.AspNetUserRoles.Remove(rOLE);
+            db.USERS.Remove(uNER);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -75,7 +142,7 @@ namespace IngeDolan.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Name, model.Password, model.Recuerdame, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -83,7 +150,7 @@ namespace IngeDolan.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.Recuerdame });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -139,6 +206,7 @@ namespace IngeDolan.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.ROLE = new SelectList(db.AspNetRoles, "Name", "Name");
             return View();
         }
 
@@ -151,18 +219,26 @@ namespace IngeDolan.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Name, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    using (ApplicationDbContext db = new ApplicationDbContext())
+                    {
+                        var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+                        userManager.AddToRole(user.Id, model.ROLE);
+                    }
+                    var usuario = new USER { USERNAME = model.Name, EMAIL = model.Email, PASSWORDS = model.Password, USERS_ID = user.Id, ROLE_TYPE = model.ROLE };
+                    db.USERS.Add(usuario);
+                    db.SaveChanges();
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -451,14 +527,14 @@ namespace IngeDolan.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-
+        
         internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
                 : this(provider, redirectUri, null)
             {
             }
-
+            
             public ChallengeResult(string provider, string redirectUri, string userId)
             {
                 LoginProvider = provider;

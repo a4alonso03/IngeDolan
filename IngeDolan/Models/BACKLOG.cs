@@ -27,9 +27,9 @@ public partial class BACKLOG
     }
 
 
-    public int BACKLOG_ID { get; set; }
+    public string BACKLOG_ID { get; set; }
 
-    public int PROJECT_ID { get; set; }
+    public string PROJECT_ID { get; set; }
 
 
 

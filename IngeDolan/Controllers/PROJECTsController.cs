@@ -16,29 +16,10 @@ namespace IngeDolan.Controllers
         private dolansoftEntities db = new dolansoftEntities();
         ApplicationDbContext context = new ApplicationDbContext();
 
-        private bool checkPowers(string permiso)
-        {
-            String userID = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            if (Request.IsAuthenticated)
-            {
-                var rol = context.Users.Find(userID).Roles.First();
-                var permisoID = db.PERMISSIONs.Where(m => m.NAMES == permiso).First().PERMISSION_ID;
-                var listaRoles = db.ROLES.Where(m => m.PERMISSION == permisoID).ToList().Select(n => n.ROLE_TYPE);
-                bool userRol = listaRoles.Contains(rol.RoleId);
-                return userRol;
-            }
-            else { return false; }
-        }
-
         // GET: PROJECTs
+        [Authorize(Roles = "Profesor")]
         public ActionResult Index()
         {
-            if (!checkPowers("Consultar Lista de Proyectos"))
-            {
-                this.AddToastMessage("Acceso Denegado", "No tienes permiso para consultar Proyectos!", ToastType.Warning);
-                return RedirectToAction("Denied", "Other");
-            }
-
             var pROJECTs = db.PROJECTs.Include(p => p.USERS);
             return View(pROJECTs.ToList());
         }

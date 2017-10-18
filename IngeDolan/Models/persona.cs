@@ -18,17 +18,6 @@ using System;
 public partial class persona
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public persona()
-    {
-
-        this.telefonoes = new HashSet<telefono>();
-
-        this.telefonoes1 = new HashSet<telefono>();
-
-    }
-
-
     public string nombre { get; set; }
 
     public string apellido1 { get; set; }
@@ -46,20 +35,6 @@ public partial class persona
     public string email { get; set; }
 
     public string id { get; set; }
-
-
-
-    public virtual AspNetUser AspNetUser { get; set; }
-
-    public virtual AspNetUser AspNetUser1 { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<telefono> telefonoes { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<telefono> telefonoes1 { get; set; }
 
 }
 

@@ -29,13 +29,13 @@ public partial class USER_STORY
     }
 
 
-    public int STORY_ID { get; set; }
+    public string STORY_ID { get; set; }
 
-    public int BACKLOG_ID { get; set; }
+    public string BACKLOG_ID { get; set; }
 
-    public int PROJECT_ID { get; set; }
+    public string PROJECT_ID { get; set; }
 
-    public Nullable<int> SPRINT_ID { get; set; }
+    public string SPRINT_ID { get; set; }
 
     public Nullable<int> PRIORITIES { get; set; }
 

@@ -3,6 +3,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IngeDolan.Models
 {
+    public class UserDetailsModel
+    {
+        public string Id { get; set; }
+
+        public string Email { get; set; }
+        
+        public string UserName { get; set; }
+
+        public string Role { get; set; }
+    }
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -49,9 +60,8 @@ namespace IngeDolan.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Name")]
+        public string Name { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -59,11 +69,16 @@ namespace IngeDolan.Models
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
+        public bool Recuerdame { get; set; }
     }
 
     public class RegisterViewModel
     {
+        [Required]
+        [StringLength(30, ErrorMessage = "El rango requerido de caracteres es de 1 a 30", MinimumLength = 1)]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -79,6 +94,9 @@ namespace IngeDolan.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string ROLE { get; set; }
     }
 
     public class ResetPasswordViewModel
