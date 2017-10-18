@@ -28,14 +28,15 @@ namespace IngeDolan.Controllers
         public AccountController()
         {
         }
-
+        /*
         // GET: users
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View(db.AspNetUsers.ToList());
+            var uSERS = db.USERS.Include(u => u.PROJECT).Include(u => u.ROLE);
+            return View(uSERS.ToList());
         }
-
+        */
         // GET: users/Details/5
         [AllowAnonymous]
         public ActionResult Details(string id)
@@ -47,8 +48,7 @@ namespace IngeDolan.Controllers
             AspNetUser uSER = db.AspNetUsers.Where(X => X.Id.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
             AspNetUserRole rOLE = db.AspNetUserRoles.Where(X => X.UserId.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
             AspNetRole rULO = db.AspNetRoles.Where(X => X.Id.Equals(rOLE.RoleId, StringComparison.Ordinal)).FirstOrDefault();
-            USER uner = db.USERS.Where(X => X.USERS_ID.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
-            var usero = new UserDetailsModel { Id = uSER.Id, Email = uSER.Email, Role = rULO.Name, UserName = uner.USERNAME };
+            var usero = new UserDetailsModel { Id = uSER.Id, Email = uSER.Email, Role = rULO.Name, UserName = uSER.UserName };
             if (uSER == null || rOLE == null || rULO == null || usero == null )
             {
                 return HttpNotFound();
@@ -494,7 +494,41 @@ namespace IngeDolan.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-        
+
+        //Oh snap!
+        public ActionResult Index(int page = 1, string sort = "USERNAME", string sortdir = "asc", string search = "")
+        {
+            int pageSize = 10;
+            int totalRecord = 0;
+            if (page < 1) page = 1;
+            int skip = (page * pageSize) - pageSize;
+            var data = GetUsers(search, sort, sortdir, skip, pageSize, out totalRecord);
+            ViewBag.TotalRows = totalRecord;
+            ViewBag.search = search;
+            return View(data);
+        }
+
+        public List<USER> GetUsers(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
+        {
+            var v = (from a in db.USERS
+                     where
+                        a.USERNAME.Contains(search) ||
+                        a.SURNAME.Contains(search) ||
+                        a.LASTNAME.Contains(search) ||
+                        a.EMAIL.Contains(search)
+                     select a
+                        );
+            totalRecord = v.Count();
+            v = v.OrderBy(sort + " " + sortdir);
+            if (pageSize > 0)
+            {
+                v = v.Skip(skip).Take(pageSize);
+            }
+            return v.ToList();
+        }
+
+        //Oh jeez
+
         internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
