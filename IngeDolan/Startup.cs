@@ -63,19 +63,27 @@ namespace IngeDolan
                 baseDatos.SaveChanges();
             }
 
-            // creating Creating Desarrollador role    
-            if (!roleManager.RoleExists("Desarrollador"))
+            // creating Creating Profesor role    
+            if (!roleManager.RoleExists("Profesor"))
             {
                 var role = new IdentityRole();
-                role.Name = "Desarrollador";
+                role.Name = "Profesor";
                 roleManager.Create(role);
             }
 
-            // creating Creating Cliente role    
-            if (!roleManager.RoleExists("Cliente"))
+            // creating Creating Asistente role    
+            if (!roleManager.RoleExists("Asistente"))
             {
                 var role = new IdentityRole();
-                role.Name = "Cliente";
+                role.Name = "Asistente";
+                roleManager.Create(role);
+            }
+
+            // creating Creating Asistente role    
+            if (!roleManager.RoleExists("Estudiante"))
+            {
+                var role = new IdentityRole();
+                role.Name = "Estudiante";
                 roleManager.Create(role);
             }
         }
