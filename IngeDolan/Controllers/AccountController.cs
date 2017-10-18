@@ -56,6 +56,39 @@ namespace IngeDolan.Controllers
             return PartialView(usero);
         }
 
+        // GET: PROJECTs/Delete/5
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AspNetUser uSER = db.AspNetUsers.Find(id);
+            if (uSER == null)
+            {
+                return HttpNotFound();
+            }
+            return View(uSER);
+        }
+
+        // POST: PROJECTs/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            //DELETE FROM AspNetUserRoles where UserId = 'id';
+            //DELETE FROM AspNetUsers where Id = 'id';
+            //ELETE FROM USERS where USERS_ID = 'id';
+            AspNetUser uSER = db.AspNetUsers.Find(id);
+            AspNetUserRole rOLE = db.AspNetUserRoles.Where(X => X.UserId.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
+            USER uNER = db.USERS.Where(X => X.USERNAME.Equals(id, StringComparison.Ordinal)).FirstOrDefault();
+            db.AspNetUsers.Remove(uSER);
+            db.AspNetUserRoles.Remove(rOLE);
+            db.USERS.Remove(uNER);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;

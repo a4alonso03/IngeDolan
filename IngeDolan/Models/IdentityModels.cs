@@ -29,5 +29,7 @@ namespace IngeDolan.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<IngeDolan.Models.AspNetUser> AspNetUsers { get; set; }
     }
 }
