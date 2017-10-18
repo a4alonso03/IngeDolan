@@ -37,7 +37,7 @@ namespace IngeDolan
                 for (int i = 1; i <= 24; i++)
                 {
                     var rolPermisosEntry = new ROLE();
-                    rolPermisosEntry.PERMISSION = i;
+                    //rolPermisosEntry.PERMISSION = i;
                     rolPermisosEntry.ROLE_TYPE = role.Id;
                     baseDatos.ROLES.Add(rolPermisosEntry);
                 }
@@ -55,9 +55,9 @@ namespace IngeDolan
                     var result1 = UserManager.AddToRole(user.Id, "Admin");
                     //Create User
                     var userEntry = new USER();
-                    userEntry.USERS_ID = 000000000;
+                    userEntry.USERS_ID = "000000000";
                     userEntry.USERNAME = "Administrador";
-                    userEntry.STUDENT_ID = user.Id;
+                    //userEntry.STUDENT_ID = user.Id;
                     baseDatos.USERS.Add(userEntry);
                 }
                 baseDatos.SaveChanges();
