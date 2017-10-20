@@ -25,6 +25,10 @@
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Proyectos", "Index", "PROJECTs")</li>
                     <li>@Html.ActionLink("Usuarios", "Index", "Account")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Cambiar Contraseña", "ChangePassword", "Manage")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
