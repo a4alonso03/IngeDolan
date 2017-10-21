@@ -11,7 +11,8 @@ namespace IngeDolan.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class PROJECT
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,6 +24,7 @@ namespace IngeDolan.Models
     
         public string PROJECT_ID { get; set; }
         public Nullable<System.DateTime> STARTING_DATE { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FINAL_DATE { get; set; }
         public string DESCRIPTIONS { get; set; }
         public string PROJECT_NAME { get; set; }
