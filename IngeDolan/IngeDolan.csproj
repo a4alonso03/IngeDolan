@@ -231,6 +231,7 @@
     <Compile Include="App_Start\ToastrController.cs" />
     <Compile Include="App_Start\ToastType.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BACKLOGsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OtherController.cs" />
@@ -481,6 +482,11 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Details.cshtml" />
     <Content Include="Views\Account\Delete.cshtml" />
+    <Content Include="Views\BACKLOGs\Create.cshtml" />
+    <Content Include="Views\BACKLOGs\Delete.cshtml" />
+    <Content Include="Views\BACKLOGs\Details.cshtml" />
+    <Content Include="Views\BACKLOGs\Edit.cshtml" />
+    <Content Include="Views\BACKLOGs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
