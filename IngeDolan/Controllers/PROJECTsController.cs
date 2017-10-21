@@ -7,6 +7,8 @@ using System.Net;
 using System.Web.Mvc;
 using System.Data;
 using System.Data.Entity;
+using System.Linq.Dynamic;
+using System.Collections.Generic;
 
 
 namespace IngeDolan.Controllers
@@ -18,11 +20,37 @@ namespace IngeDolan.Controllers
 
         // GET: PROJECTs
         [Authorize(Roles = "Profesor")]
-        public ActionResult Index()
+        //Oh snap!
+        public ActionResult Index(int page = 1, string sort = "PROJECT_NAME", string sortdir = "asc", string search = "")
         {
-            var pROJECTs = db.PROJECTs.Include(p => p.USERS);
-            return View(pROJECTs.ToList());
+            int pageSize = 10;
+            int totalRecord = 0;
+            if (page < 1) page = 1;
+            int skip = (page * pageSize) - pageSize;
+            var data = GetProjects(search, sort, sortdir, skip, pageSize, out totalRecord);
+            ViewBag.TotalRows = totalRecord;
+            ViewBag.search = search;
+            return View(data);
         }
+
+        public List<PROJECT> GetProjects(string search, string sort, string sortdir, int skip, int pageSize, out int totalRecord)
+        {
+            var v = (from a in db.PROJECTs
+                     where
+                        a.PROJECT_ID.Contains(search) ||
+                        a.PROJECT_NAME.Contains(search) ||
+                        a.DESCRIPTIONS.Contains(search)
+                     select a
+                        );
+            totalRecord = v.Count();
+            v = v.OrderBy(sort + " " + sortdir);
+            if (pageSize > 0)
+            {
+                v = v.Skip(skip).Take(pageSize);
+            }
+            return v.ToList();
+        }
+        //Oh jeez
 
         // GET: PROJECTs/Details/5
         public ActionResult Details(string id)
@@ -42,7 +70,7 @@ namespace IngeDolan.Controllers
         // GET: PROJECTs/Create
         public ActionResult Create()
         {
-            ViewBag.LEADER_ID = new SelectList(db.USERS, "USERS_ID", "ROLE_TYPE");
+            ViewBag.LEADER_ID = new SelectList(db.USERS, "USERS_ID", "USERNAME");
             return View();
         }
 
@@ -60,7 +88,7 @@ namespace IngeDolan.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LEADER_ID = new SelectList(db.USERS, "USERS_ID", "ROLE_TYPE", pROJECT.LEADER_ID);
+            ViewBag.LEADER_ID = new SelectList(db.USERS, "USERS_ID", "USERNAME", pROJECT.LEADER_ID);
             return View(pROJECT);
         }
 

@@ -213,6 +213,7 @@
           <Property Name="ESTIMATION" Type="int" />
           <Property Name="REASON" Type="varchar" MaxLength="150" />
           <Property Name="FUNCTIONALITY" Type="varchar" MaxLength="150" />
+          <Property Name="Alias" Type="varchar" MaxLength="25" />
         </EntityType>
         <EntityType Name="USERS">
           <Key>
@@ -750,6 +751,7 @@
           <NavigationProperty Name="SCENARIOs" Relationship="dolansoftModel.FK__SCENARIO__681373AD" FromRole="USER_STORY" ToRole="SCENARIO" />
           <NavigationProperty Name="SPRINT" Relationship="dolansoftModel.FK__USER_STORY__65370702" FromRole="USER_STORY" ToRole="SPRINT" />
           <NavigationProperty Name="TASKs" Relationship="dolansoftModel.FK__TASK__6AEFE058" FromRole="USER_STORY" ToRole="TASK" />
+          <Property Name="Alias" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="USER">
           <Key>
@@ -1106,6 +1108,7 @@
           <EntitySetMapping Name="USER_STORY">
             <EntityTypeMapping TypeName="dolansoftModel.USER_STORY">
               <MappingFragment StoreEntitySet="USER_STORY">
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
                 <ScalarProperty Name="FUNCTIONALITY" ColumnName="FUNCTIONALITY" />
                 <ScalarProperty Name="REASON" ColumnName="REASON" />
                 <ScalarProperty Name="ESTIMATION" ColumnName="ESTIMATION" />

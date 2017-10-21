@@ -393,8 +393,6 @@
       <DependentUpon>Modelo.edmx</DependentUpon>
       <LastGenOutput>Modelo.cs</LastGenOutput>
     </Content>
-    <Content Include="Scripts\ai.1.0.12-build04187.js" />
-    <Content Include="Scripts\ai.1.0.12-build04187.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -434,8 +432,6 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\toastr.js" />
-    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
