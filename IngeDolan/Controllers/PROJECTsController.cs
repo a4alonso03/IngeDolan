@@ -70,7 +70,7 @@ namespace IngeDolan.Controllers
         // GET: PROJECTs/Create
         public ActionResult Create()
         {
-            ViewBag.LEADER_ID = new SelectList(db.USERS, "USERS_ID", "USERS_ID");
+            ViewBag.LEADER_ID = new SelectList(db.USERS, "USERS_ID", "USERNAME");
             return View();
         }
 
@@ -88,7 +88,7 @@ namespace IngeDolan.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LEADER_ID = new SelectList(db.USERS, "USERS_ID", "USERS_ID", pROJECT.LEADER_ID);
+            ViewBag.LEADER_ID = new SelectList(db.USERS, "USERS_ID", "USERNAME", pROJECT.LEADER_ID);
             return View(pROJECT);
         }
 
