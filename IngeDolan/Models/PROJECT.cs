@@ -12,10 +12,12 @@
 namespace IngeDolan.Models
 {
 
-using System;
+    using System;
     using System.Collections.Generic;
-    
-public partial class PROJECT
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
+
+    public partial class PROJECT
 {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -27,18 +29,26 @@ public partial class PROJECT
         this.USERS = new HashSet<USER>();
 
     }
-
-
+        
     public string PROJECT_ID { get; set; }
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+    [Display(Name = "Fecha de inicio")]
     public Nullable<System.DateTime> STARTING_DATE { get; set; }
 
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+    [Display(Name = "Fecha de finalización")]
     public Nullable<System.DateTime> FINAL_DATE { get; set; }
 
+    [Display(Name = "Descripción")]
     public string DESCRIPTIONS { get; set; }
 
+    [Display(Name = "Nombre")]
     public string PROJECT_NAME { get; set; }
 
+    [Display(Name = "Líder")]
     public string LEADER_ID { get; set; }
 
 

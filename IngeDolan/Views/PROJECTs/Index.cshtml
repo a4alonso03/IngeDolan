@@ -25,7 +25,7 @@
             @Html.DisplayNameFor(model => model.PROJECT_NAME)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.USER.ROLE_TYPE)
+            @Html.DisplayNameFor(model => model.LEADER_ID)
         </th>
         <th></th>
     </tr>
@@ -45,7 +45,7 @@
             @Html.DisplayFor(modelItem => item.PROJECT_NAME)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.USER.ROLE_TYPE)
+            @Html.DisplayFor(modelItem => item.USER.USERNAME)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.PROJECT_ID }) |
